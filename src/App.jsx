@@ -1,3 +1,10 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 
-export default () => <h1>MathBank</h1>;
+import store from './store';
+
+export default () => (
+  <Provider store={store}>
+    <h1>Hello</h1>
+  </Provider>
+);

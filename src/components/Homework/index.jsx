@@ -20,7 +20,7 @@ class Homework extends Component {
     }).isRequired,
   };
 
-  componentDidMount() {
+  componentWillMount() {
     document.body.style.backgroundColor = '#2c7f64';
   }
 
@@ -37,7 +37,11 @@ class Homework extends Component {
       return (
         <header className="category-header">
           <BackLink />
-          <h1 className="category-header__title">Домашнее задание отсутствует</h1>
+          <h1 className="category-header__title">
+            <div className="category-header__title-outer">
+              <div className="category-header__title-inner">Домашнее задание отсутствует</div>
+            </div>
+          </h1>
         </header>
       );
     }
@@ -46,7 +50,11 @@ class Homework extends Component {
       <div>
         <header className="category-header">
           <BackLink />
-          <h1 className="category-header__title">{homework.name}</h1>
+          <h1 className="category-header__title">
+            <div className="category-header__title-outer">
+              <div className="category-header__title-inner">{homework.name}</div>
+            </div>
+          </h1>
         </header>
         <ProblemsList list={problemsDict[homeworkHash]} />
       </div>

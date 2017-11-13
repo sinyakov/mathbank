@@ -48,7 +48,7 @@ const defaultState = {
         },
         {
           id: '38',
-          statement: 'Четно или нечетно число 101+102+...+199+200?',
+          statement: 'Четно или нечетно число $101 + 102 + ... + 199 + 200$?',
           answer: '',
           category_id: '2',
         },
@@ -64,10 +64,10 @@ const defaultState = {
       ],
     },
   },
-  solved: [3, 38],
+  solvedProblems: ['3', '38'],
   basket: {
     name: 'Домашнее задание #1',
-    list: [{ id: 3, order: 0 }, { id: 38, order: 1 }, { id: 2, order: 2 }],
+    list: [{ id: '3', order: 0 }, { id: '38', order: 1 }, { id: '2', order: 2 }],
   },
 };
 

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import categories from './categories';
 import problems from './problems';
-import solved from './solved';
+import solvedProblems from './solvedProblems';
 
 export default combineReducers({
   categories,
   problems,
-  solved,
+  solvedProblems,
 });

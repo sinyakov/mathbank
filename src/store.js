@@ -5,10 +5,10 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 
 const defaultState = {
-  user: {
-    name: null,
-    isAdmin: false,
-  },
+  // user: {
+  //   name: null,
+  //   isAdmin: false,
+  // },
   categories: {
     isLoading: false,
     errors: [],
@@ -21,10 +21,7 @@ const defaultState = {
   homeworks: {
     isLoading: false,
     errors: [],
-    list: [
-      { id: '1', alias: 'hw1', name: 'Домашнее задание #1' },
-      { id: '2', alias: 'hw2', name: 'Домашнее задание #2' },
-    ],
+    list: [{ id: '1', alias: 'hw1', name: 'Домашнее задание #1' }],
   },
   problems: {
     isLoading: false,
@@ -53,6 +50,7 @@ const defaultState = {
           category_id: '2',
         },
       ],
+      sets: [],
       hw1: [
         {
           id: '2',
@@ -65,10 +63,10 @@ const defaultState = {
     },
   },
   solvedProblems: ['3', '38'],
-  basket: {
-    name: 'Домашнее задание #1',
-    list: [{ id: '3', order: 0 }, { id: '38', order: 1 }, { id: '2', order: 2 }],
-  },
+  // basket: {
+  //   name: 'Домашнее задание #1',
+  //   list: [{ id: '3', order: 0 }, { id: '38', order: 1 }, { id: '2', order: 2 }],
+  // },
 };
 
 export default createStore(reducers, defaultState, composeWithDevTools(applyMiddleware(thunk)));

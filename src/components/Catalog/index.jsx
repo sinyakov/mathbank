@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import Categories from './Categories';
 import ProblemsList from '../ProblemsList';
 
-const Catalog = ({ problemsDict, categoriesList, categoryHash }) => {
+const Catalog = (props) => {
+  const { problemsDict, categoriesList } = props;
+  const categoryHash = props.match.params.category;
   const category = categoriesList.find(cat => cat.alias === categoryHash);
 
   if (!category) {
@@ -19,9 +21,7 @@ const Catalog = ({ problemsDict, categoriesList, categoryHash }) => {
   return (
     <div>
       <header className="category-header">
-        <h1 className="category-header__title">
-          {category.name} — {problemsDict[categoryHash].length}
-        </h1>
+        <h1 className="category-header__title">{category.name}</h1>
       </header>
       <Categories />
       <ProblemsList list={problemsDict[categoryHash]} />
@@ -32,7 +32,9 @@ const Catalog = ({ problemsDict, categoriesList, categoryHash }) => {
 Catalog.propTypes = {
   problemsDict: PropTypes.objectOf(PropTypes.array).isRequired,
   categoriesList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  categoryHash: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }).isRequired,
 };
 
 const mapStateToProps = ({ categories, problems }) => ({

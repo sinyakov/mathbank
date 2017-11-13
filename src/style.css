@@ -1,7 +1,7 @@
 body {
   background: linear-gradient(90deg, #3f58b2, #2c7f64);
-  /* background: #5074ab; */
-  background: #2c7f64;
+  background: #5074ab;
+  /* background: #2c7f64; */
   color: #111;
   font-size: 16px;
   font-family: Helvetica Neue, Verdana;
@@ -121,6 +121,15 @@ body {
   background: #fea;
 }
 
+.catalog__info {
+  margin: 12px 0;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: rgba(254, 255, 202, 0.9);
+  box-shadow: 0 0 1px #aaa;
+  font-size: 1.1em;
+}
+
 .problem {
   position: relative;
   overflow: hidden;
@@ -210,4 +219,24 @@ body {
   background-color: #58e2d0;
   cursor: pointer;
   transform: rotate(90deg);
+}
+
+.go-back {
+  position: absolute;
+  top: 0;
+  left: -46px;
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 3px;
+  background: white;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 38px;
 }

@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const Categories = ({ categoriesList }) => (
   <div className="filter">
     {categoriesList.map(cat => (
-      <a className="filter__item" key={cat.alias} href={`/category/${cat.alias}`}>
+      <NavLink className="filter__item" key={cat.alias} to={`/category/${cat.alias}`}>
         {cat.name}
-      </a>
+      </NavLink>
     ))}
   </div>
 );
@@ -20,4 +21,4 @@ const mapStateToProps = ({ categories }) => ({
   categoriesList: categories.list,
 });
 
-export default connect(mapStateToProps)(Categories);
+export default connect(mapStateToProps, null, null, { pure: false })(Categories);

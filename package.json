@@ -9,6 +9,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-sortable-hoc": "^0.6.8",
     "react-tex": "^1.3.0",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",

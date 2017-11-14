@@ -31,16 +31,18 @@ class checkAnswerForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="check-answer" onSubmit={this.handleSubmit}>
         <input
-          className="problem__answer-input"
+          className="check-answer__input"
           type="text"
           name="answer"
           value={this.state.title}
           onChange={this.handleInputChange}
           placeholder="Ответ"
         />
-        <button type="submit">Проверить</button>
+        <button className="check-answer__button" type="submit" title="Проверить ответ">
+          →
+        </button>
       </form>
     );
   }

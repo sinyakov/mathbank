@@ -16,10 +16,14 @@ const BackLink = () => (
 
 const SortableItem = SortableElement(({ problemData }) => <Problem {...problemData} />);
 
-const SortableList = SortableContainer(({ items }) => (
+const SortableList = SortableContainer(({ items, section }) => (
   <div>
     {items.map((problem, index) => (
-      <SortableItem key={problem.id} index={index} problemData={{ ...problem, order: index + 1 }} />
+      <SortableItem
+        key={problem.id}
+        index={index}
+        problemData={{ ...problem, section, order: index + 1 }}
+      />
     ))}
   </div>
 ));
@@ -53,7 +57,7 @@ class Basket extends Component {
             </div>
           </h1>
         </header>
-        <SortableList items={this.props.problemsList} onSortEnd={this.onSortEnd} />
+        <SortableList items={this.props.problemsList} onSortEnd={this.onSortEnd} section="basket" />
       </div>
     );
   }

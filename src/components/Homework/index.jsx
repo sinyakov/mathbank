@@ -56,7 +56,7 @@ class Homework extends Component {
             </div>
           </h1>
         </header>
-        <ProblemsList list={problemsDict[homeworkHash]} />
+        <ProblemsList list={problemsDict[homeworkHash]} section="homework" />
       </div>
     );
   }

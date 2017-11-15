@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import addProblemToSolved from '../../actions/addProblemToSolved';
 
+const getFormColorClass = section => ` check-answer--${section}`;
+
 class checkAnswerForm extends Component {
   static propTypes = {
     addProblemToSolved: PropTypes.func.isRequired,
     answer: PropTypes.string.isRequired,
     problemId: PropTypes.string.isRequired,
+    section: PropTypes.string.isRequired,
   };
 
   state = {
@@ -31,7 +34,10 @@ class checkAnswerForm extends Component {
 
   render() {
     return (
-      <form className="check-answer" onSubmit={this.handleSubmit}>
+      <form
+        className={`check-answer${getFormColorClass(this.props.section)}`}
+        onSubmit={this.handleSubmit}
+      >
         <input
           className="check-answer__input"
           type="text"

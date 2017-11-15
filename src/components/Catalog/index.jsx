@@ -35,7 +35,7 @@ const Catalog = (props) => {
         <BasketCounter />
       </header>
       <Categories />
-      <ProblemsList list={problemsDict[categoryHash]} />
+      <ProblemsList list={problemsDict[categoryHash]} section="catalog" />
     </div>
   );
 };

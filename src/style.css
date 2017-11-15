@@ -1,7 +1,5 @@
 body {
-  background: linear-gradient(90deg, #3f58b2, #2c7f64);
   background: #5074ab;
-  /* background: #2c7f64; */
   color: #111;
   font-size: 16px;
   font-family: Helvetica Neue, Verdana;
@@ -158,34 +156,6 @@ body {
   line-height: 1.4em;
 }
 
-.add-problem {
-  position: relative;
-  /* display: none; */
-  margin: 15px 0;
-  padding: 8px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 1px #aaa;
-}
-
-.add-problem__statement {
-  margin-bottom: 5px;
-  width: calc(100% - 5px);
-  border-radius: 3px;
-  resize: vertical;
-}
-
-.add-problem__answer {
-  margin-right: 5px;
-  width: 40%;
-  border-radius: 3px;
-}
-
-.add-problem__btn {
-  position: absolute;
-  right: 8px;
-}
-
 .catalog {
   margin: 16px 0;
 }
@@ -228,13 +198,89 @@ body {
 
 .problem {
   position: relative;
+  display: flex;
   overflow: hidden;
   margin: 12px 0;
-  padding: 8px;
+  padding: 4px;
   border-radius: 3px;
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 1px #aaa;
   transition: background-color 0.4s ease-in-out;
+}
+
+.problem__content {
+  flex: 1 0;
+  padding: 4px;
+}
+
+.problem__admin {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 9px;
+  padding: 4px;
+  padding-left: 9px;
+  border-left: 1px solid #ddd;
+}
+
+.problem--shake {
+  transform: translate3d(0, 0, 0);
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.problem__btn {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: rgb(100, 100, 100);
+  background-position: center;
+  background-size: 12px;
+  background-repeat: no-repeat;
+  font-size: 0;
+  cursor: pointer;
+}
+
+.problem__btn--add {
+  background-color: rgb(88, 203, 115);
+  background-image: url(./img/cart.svg);
+}
+
+.problem__btn--remove {
+  background-color: rgb(228, 100, 100);
+  background-image: url(./img/remove.svg);
+}
+
+.problem__btn--edit {
+  background-color: #aaa;
+  background-image: url(./img/pen.svg);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 
 .problem__order {
@@ -243,7 +289,6 @@ body {
 
 .problem__statement {
   margin: 0 0 8px;
-  /* padding-right: 32px; */
 }
 
 .problem__info {
@@ -270,7 +315,7 @@ body {
   display: flex;
   overflow: hidden;
   max-width: 240px;
-  border: 1px solid rgba(68, 198, 104, 0.35);
+  border: 1px solid rgba(100, 100, 100, 0.35);
   border-radius: 3px;
   transition: all 0.3s ease-in-out;
 }
@@ -286,9 +331,30 @@ body {
 .check-answer__button {
   margin: 0;
   border: none;
-  background: rgba(68, 198, 104, 0.35);
+  background: rgba(100, 100, 100, 0.35);
   font-size: 20px;
   line-height: 1;
+}
+.check-answer--homework {
+  border-color: rgba(68, 198, 104, 0.35);
+}
+.check-answer--catalog {
+  border-color: rgba(117, 191, 243, 0.35);
+}
+.check-answer--basket {
+  border-color: rgba(226, 102, 102, 0.35);
+}
+
+.check-answer--catalog .check-answer__button {
+  background: rgba(117, 191, 243, 0.35);
+}
+
+.check-answer--homework .check-answer__button {
+  background: rgba(68, 198, 104, 0.35);
+}
+
+.check-answer--basket .check-answer__button {
+  background: rgba(226, 102, 102, 0.35);
 }
 
 @media (max-width: 450px) {

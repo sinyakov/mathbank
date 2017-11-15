@@ -4,6 +4,7 @@ import problems from './problems';
 import homeworks from './homeworks';
 import basket from './basket';
 import solvedProblems from './solvedProblems';
+import user from './user';
 
 export default combineReducers({
   categories,
@@ -11,4 +12,5 @@ export default combineReducers({
   problems,
   solvedProblems,
   basket,
+  user,
 });

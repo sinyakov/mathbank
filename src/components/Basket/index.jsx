@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
 import { reorderProblems } from '../../actions/basket';
-
 import Problem from '../ProblemsList/Problem';
-
-const BackLink = () => (
-  <NavLink className="go-back" to="/" title="К каталогу задач">
-    ←
-  </NavLink>
-);
+import BackLink from '../BackLink';
 
 const SortableItem = SortableElement(({ problemData }) => <Problem {...problemData} />);
 

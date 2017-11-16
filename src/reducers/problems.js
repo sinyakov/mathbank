@@ -4,30 +4,32 @@ import {
   FETCH_CATEGORY_PROBLEMS_SUCCESS,
 } from '../actions/constants';
 
-const defaultState = {
-  isLoading: false,
-  dict: {},
-  errors: [],
-};
+const defaultState = {};
 
 export default (state = defaultState, action) => {
   switch (action.type) {
     case FETCH_CATEGORY_PROBLEMS_START:
       return {
         ...state,
-        isLoading: true,
+        [action.payload]: {
+          isLoading: true,
+        },
       };
     case FETCH_CATEGORY_PROBLEMS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        list: { ...state.list, [action.payload.category]: action.payload.list },
+        [action.payload.category]: {
+          isLoading: false,
+          list: action.payload.list,
+        },
       };
     case FETCH_CATEGORY_PROBLEMS_FAILURE:
       return {
         ...state,
-        isLoading: false,
-        errors: [...state.errors, action.payload],
+        [action.payload.category]: {
+          isLoading: false,
+          errors: action.payload,
+        },
       };
     default:
       return state;

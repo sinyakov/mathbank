@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ProblemsList from '../ProblemsList';
-
-const BackLink = () => (
-  <NavLink className="go-back" to="/" title="К каталогу задач">
-    ←
-  </NavLink>
-);
+import BackLink from '../BackLink';
 
 class Homework extends Component {
   static propTypes = {

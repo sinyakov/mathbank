@@ -5,8 +5,7 @@ import {
 } from '../actions/constants';
 
 const defaultState = {
-  isLoading: false,
-  currentCategory: null,
+  isLoading: true,
   list: [],
   errors: [],
 };

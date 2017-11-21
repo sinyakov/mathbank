@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import addProblemToSolved from '../../actions/addProblemToSolved';
 import { addProblemToBasket, removeProblemFromBasket } from '../../actions/basket';
 
 class ProblemAdmin extends Component {
@@ -9,9 +8,13 @@ class ProblemAdmin extends Component {
     basketList: PropTypes.arrayOf(PropTypes.object).isRequired,
     id: PropTypes.string.isRequired,
     statement: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired,
+    answer: PropTypes.string,
     addProblemToBasket: PropTypes.func.isRequired,
     removeProblemFromBasket: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    answer: null,
   };
 
   basketContainsProblem() {
@@ -63,7 +66,6 @@ const mapStateToProps = ({ basket }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addProblemToSolved: problemId => dispatch(addProblemToSolved(problemId)),
   addProblemToBasket: problem => dispatch(addProblemToBasket(problem)),
   removeProblemFromBasket: problem => dispatch(removeProblemFromBasket(problem)),
 });

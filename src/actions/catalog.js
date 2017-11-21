@@ -8,7 +8,7 @@ import {
   FETCH_CATEGORY_PROBLEMS_FAILURE,
 } from './constants';
 
-const BASE_URL = 'http://188.226.171.191:3000/api';
+const BASE_URL = 'http://127.0.0.1:3012';
 
 export const getCategories = () => (dispatch) => {
   dispatch({
@@ -16,14 +16,17 @@ export const getCategories = () => (dispatch) => {
   });
 
   return axios
-    .get(`${BASE_URL}/categories`)
-    .then(({ data }) => {
-      dispatch({
-        type: FETCH_CATEGORIES_LIST_SUCCESS,
-        payload: data,
-      });
-      return data;
-    })
+    .get(`${BASE_URL}/category/entries`)
+    .then(({ data }) =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          dispatch({
+            type: FETCH_CATEGORIES_LIST_SUCCESS,
+            payload: data,
+          });
+          resolve(data);
+        }, 10);
+      }))
     .catch((err) => {
       dispatch({
         type: FETCH_CATEGORIES_LIST_FAILURE,
@@ -32,27 +35,32 @@ export const getCategories = () => (dispatch) => {
     });
 };
 
-export const getProblemsByCategoryId = (id, hash) => (dispatch) => {
+export const getProblemsByCategoryId = id => (dispatch) => {
   dispatch({
     type: FETCH_CATEGORY_PROBLEMS_START,
-    payload: hash,
+    payload: id,
   });
 
   return axios
-    .get(`${BASE_URL}/problems/${id}`)
-    .then(({ data }) => {
-      dispatch({
-        type: FETCH_CATEGORY_PROBLEMS_SUCCESS,
-        payload: {
-          category: hash,
-          list: data,
-        },
-      });
+    .get(`${BASE_URL}/category/entries/${id}`)
+    .then(({ data: { list } }) => {
+      setTimeout(() => {
+        dispatch({
+          type: FETCH_CATEGORY_PROBLEMS_SUCCESS,
+          payload: {
+            id,
+            list,
+          },
+        });
+      }, 10);
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch({
         type: FETCH_CATEGORY_PROBLEMS_FAILURE,
-        payload: err,
+        payload: {
+          id,
+          error,
+        },
       });
     });
 };

@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ProblemsList from '../ProblemsList';
+import Problem from '../Problem';
 import BackLink from '../BackLink';
+import BasketCounter from '../BasketCounter';
+import Loader from '../Loader';
+import { getHomework } from '../../actions/homeworks';
 
 class Homework extends Component {
   static propTypes = {
-    problemsDict: PropTypes.objectOf(PropTypes.array).isRequired,
-    homeworksList: PropTypes.arrayOf(PropTypes.object).isRequired,
     match: PropTypes.shape({
       params: PropTypes.object,
     }).isRequired,
@@ -18,47 +19,74 @@ class Homework extends Component {
     document.body.style.backgroundColor = '#2c7f64';
   }
 
+  componentDidMount() {
+    const { homeworks, handleGetHomework } = this.props;
+    const homeworkHash = this.props.match.params.homework;
+    if (!homeworks[homeworkHash]) {
+      handleGetHomework(homeworkHash);
+    }
+  }
+
   componentWillUnmount() {
     document.body.style.backgroundColor = '#5074ab';
   }
 
-  render() {
-    const { problemsDict, homeworksList } = this.props;
-    const homeworkHash = this.props.match.params.homework;
-    const homework = homeworksList.find(hw => hw.alias === homeworkHash);
-
-    if (!homework) {
-      return (
-        <header className="category-header">
-          <BackLink />
-          <h1 className="category-header__title">
-            <div className="category-header__title-outer">
-              <div className="category-header__title-inner">Домашнее задание отсутствует</div>
+  renderHeader = homework => (
+    <div>
+      <header className="category-header">
+        <h1 className="category-header__title">
+          <div className="category-header__title-outer">
+            <div className="category-header__title-inner">
+              {homework.error
+                ? 'Нет такого домашнего задания'
+                : `Домашнее задание на ${homework.date}`}
             </div>
-          </h1>
-        </header>
-      );
+          </div>
+        </h1>
+        <BackLink />
+        <BasketCounter />
+      </header>
+    </div>
+  );
+
+  render() {
+    const { homeworks } = this.props;
+    const homeworkHash = this.props.match.params.homework;
+
+    if (!homeworks[homeworkHash] || homeworks[homeworkHash].isLoading) {
+      return <Loader>Загрузка категорий</Loader>;
     }
+
+    const homework = homeworks[homeworkHash];
 
     return (
       <div>
-        <header className="category-header">
-          <BackLink />
-          <h1 className="category-header__title">
-            <div className="category-header__title-outer">
-              <div className="category-header__title-inner">{homework.name}</div>
-            </div>
-          </h1>
-        </header>
-        <ProblemsList list={problemsDict[homeworkHash]} section="homework" />
+        {this.renderHeader(homework)}
+        <div className="catalog">
+          {homework.list &&
+            homework.list.map(({ id, statement, answer }, index) => (
+              <Problem key={id} order={index + 1} id={id} statement={statement} answer={answer} />
+            ))}
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ homeworks, problems }) => ({
-  homeworksList: homeworks.list,
-  problemsDict: problems.dict,
+Homework.propTypes = {
+  homeworks: PropTypes.arrayOf(PropTypes.shape({
+    list: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  })).isRequired,
+  handleGetHomework: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ homeworks }) => ({
+  homeworks,
 });
 
-export default connect(mapStateToProps)(Homework);
+const mapDispatchToProps = dispatch => ({
+  handleGetHomework: id => dispatch(getHomework(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homework);

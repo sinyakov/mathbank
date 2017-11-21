@@ -18,7 +18,7 @@ export default (state = defaultState, action) => {
     case FETCH_CATEGORY_PROBLEMS_SUCCESS:
       return {
         ...state,
-        [action.payload.category]: {
+        [action.payload.id]: {
           isLoading: false,
           list: action.payload.list,
         },
@@ -26,9 +26,9 @@ export default (state = defaultState, action) => {
     case FETCH_CATEGORY_PROBLEMS_FAILURE:
       return {
         ...state,
-        [action.payload.category]: {
+        [action.payload.id]: {
           isLoading: false,
-          errors: action.payload,
+          error: action.payload.error,
         },
       };
     default:

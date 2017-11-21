@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
 import { reorderProblems } from '../../actions/basket';
-import Problem from '../ProblemsList/Problem';
+import Problem from '../Problem';
 import BackLink from '../BackLink';
 
 const SortableItem = SortableElement(({ problemData }) => <Problem {...problemData} />);
 
 const SortableList = SortableContainer(({ items, section }) => (
-  <div>
+  <div className="catalog">
     {items.map((problem, index) => (
       <SortableItem
         key={problem.id}

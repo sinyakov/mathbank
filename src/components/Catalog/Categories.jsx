@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const Categories = ({ categoriesList }) => (
   <div className="filter">
     {categoriesList.map(cat => (
-      <NavLink className="filter__item" key={cat.alias} to={`/category/${cat.alias}`}>
+      <NavLink className="filter__item" key={cat.hash} to={`/category/${cat.hash}`}>
         {cat.name}
       </NavLink>
     ))}

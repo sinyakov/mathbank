@@ -11,11 +11,11 @@ const problemSchema = new Schema({
     type: String,
     default: null,
   },
-  // category: {
-  //   type: Schema.Types.ObjectId,
-  //   default: [],
-  //   ref: 'Category'
-  // }
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
 });
 
 const Problem = mongoose.model('Problem', problemSchema);

@@ -6,6 +6,7 @@ const categorySchema = new Schema({
   hash: {
     type: String,
     required: true,
+    unique: true,
   },
   name: {
     type: String,

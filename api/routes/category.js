@@ -2,15 +2,13 @@ const express = require('express');
 const Category = require('../models/category');
 const consts = require('../consts');
 const verifyToken = require('../utils/verify');
+require('../models/problem');
 
 const router = express.Router();
 
-// я хз, как эта шутка работает
-require('../models/Problem');
-
 const { TOKEN } = consts;
 
-router.post('/', (request, response) => {
+router.post('/entries/', (request, response) => {
   const { hash, name } = request.body;
   const token = request.headers[TOKEN] || false;
 
@@ -19,7 +17,7 @@ router.post('/', (request, response) => {
     () => {
       Category.create({ hash, name }, (err, createdCategory) => {
         if (!err && createdCategory) {
-          response.status(204).json(createdCategory);
+          response.status(200).json(createdCategory);
         } else {
           response.status(500).send('Непредвиденная ошибка');
         }
@@ -28,6 +26,35 @@ router.post('/', (request, response) => {
     () => {
       response.status(401).send('Неверный токен');
     },
+  );
+});
+
+router.put('/entries/:id', (request, response) => {
+  const token = request.headers[TOKEN];
+
+  verifyToken(
+    token,
+    () => {
+      Category.findOneAndUpdate(
+        { _id: request.params.id },
+        {
+          $set: request.body,
+        },
+        {
+          new: true,
+        },
+        (err, updatedCategory) => {
+          if (!err && updatedCategory) {
+            response.status(200).json({
+              id: updatedCategory._id,
+              name: updatedCategory.name,
+              hash: updatedCategory.hash,
+            });
+          }
+        },
+      );
+    },
+    () => response.status(401).send('Неверный токен'),
   );
 });
 
@@ -46,8 +73,6 @@ router.get('/entries', (request, response) => {
 });
 
 router.get('/entries/:id', (request, response) => {
-  console.log(request.params.id);
-
   Category.findById(request.params.id)
     .populate('list')
     .exec((err, category) => {

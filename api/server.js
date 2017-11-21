@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const user = require('./routes/user');
 const category = require('./routes/category');
+const problem = require('./routes/problem');
 const cors = require('cors');
 const morgan = require('morgan');
 
@@ -24,6 +25,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use('/user', user);
 app.use('/category', category);
+app.use('/problem', problem);
 
 app.get('/', (req, res) => res.send('Hello API!'));
 

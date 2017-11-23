@@ -2,6 +2,7 @@ import {
   ADD_PROBLEM_TO_BASKET,
   REMOVE_PROBLEM_FROM_BASKET,
   REORDER_PROBLEMS_IN_BASKET,
+  CLEAR_BASKET,
 } from '../actions/constants';
 
 export const reorderProblems = orderedList => ({
@@ -17,4 +18,8 @@ export const addProblemToBasket = problem => ({
 export const removeProblemFromBasket = problem => ({
   type: REMOVE_PROBLEM_FROM_BASKET,
   payload: problem,
+});
+
+export const clearBasket = () => ({
+  type: CLEAR_BASKET,
 });

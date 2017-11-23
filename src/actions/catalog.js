@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../config';
 import {
   FETCH_CATEGORIES_LIST_START,
   FETCH_CATEGORIES_LIST_SUCCESS,
@@ -8,15 +9,13 @@ import {
   FETCH_CATEGORY_PROBLEMS_FAILURE,
 } from './constants';
 
-const BASE_URL = 'http://127.0.0.1:3012';
-
 export const getCategories = () => (dispatch) => {
   dispatch({
     type: FETCH_CATEGORIES_LIST_START,
   });
 
   return axios
-    .get(`${BASE_URL}/category/entries`)
+    .get(`${config.base_url}/category/entries`)
     .then(({ data }) =>
       new Promise((resolve) => {
         setTimeout(() => {
@@ -42,7 +41,7 @@ export const getProblemsByCategoryId = id => (dispatch) => {
   });
 
   return axios
-    .get(`${BASE_URL}/category/entries/${id}`)
+    .get(`${config.base_url}/category/entries/${id}`)
     .then(({ data: { list } }) => {
       setTimeout(() => {
         dispatch({

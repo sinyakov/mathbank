@@ -56,9 +56,9 @@ Problem.defaultProps = {
   answer: null,
 };
 
-const mapStateToProps = ({ solvedProblems, user }) => ({
+const mapStateToProps = ({ solvedProblems, currentUser }) => ({
   solvedProblems,
-  isAdmin: user.isAdmin,
+  isAdmin: currentUser.user ? currentUser.user.isAdmin : false,
 });
 
 export default connect(mapStateToProps)(Problem);

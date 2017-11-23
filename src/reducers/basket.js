@@ -2,6 +2,7 @@ import {
   ADD_PROBLEM_TO_BASKET,
   REMOVE_PROBLEM_FROM_BASKET,
   REORDER_PROBLEMS_IN_BASKET,
+  CLEAR_BASKET,
 } from '../actions/constants';
 
 const defaultState = {
@@ -25,6 +26,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         list: action.payload,
+      };
+    case CLEAR_BASKET:
+      return {
+        ...state,
+        list: [],
       };
     default:
       return state;

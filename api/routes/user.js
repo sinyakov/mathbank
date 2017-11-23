@@ -46,6 +46,11 @@ router.post('/signin', (request, response) => {
   const { login, password } = request.body;
 
   User.findOne({ login }, (err, user) => {
+    if (!user) {
+      response.status(404).send('Пользователь не найден');
+      return;
+    }
+
     if (user.password === password) {
       const token = jwt.sign({ user }, config.secret, {
         expiresIn: 60 * 60 * 24 * 3,

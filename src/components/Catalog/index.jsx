@@ -45,7 +45,7 @@ class Catalog extends Component {
       <div>
         {this.renderHeader(category)}
         <Categories />
-        <ProblemsList categoryHash={categoryHash} />
+        <ProblemsList />
       </div>
     );
   }

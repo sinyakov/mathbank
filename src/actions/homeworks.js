@@ -1,7 +1,6 @@
 import axios from 'axios';
+import config from '../config';
 import { FETCH_HOMEWORK_START, FETCH_HOMEWORK_SUCCESS, FETCH_HOMEWORK_FAILURE } from './constants';
-
-const BASE_URL = 'http://127.0.0.1:3012/api';
 
 export const getHomework = id => (dispatch) => {
   dispatch({
@@ -10,7 +9,7 @@ export const getHomework = id => (dispatch) => {
   });
 
   return axios
-    .get(`${BASE_URL}/homeworks/${id}`)
+    .get(`${config.base_url}/homeworks/${id}`)
     .then(({ data }) =>
       setTimeout(() => {
         dispatch({

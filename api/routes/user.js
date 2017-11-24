@@ -2,31 +2,9 @@ const express = require('express');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const consts = require('../consts');
-const verifyToken = require('../utils/verify');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
-
-const { TOKEN } = consts;
-
-router.post('/entries/', (request, response) => {
-  const { login, password } = request.body;
-
-  User.create(
-    {
-      login,
-      password,
-      isAdmin: false,
-    },
-    (err, createdUser) => {
-      if (!err && createdUser) {
-        response.status(204).json(createdUser);
-      } else {
-        response.status(500).send('Ошибка сервера');
-      }
-    },
-  );
-});
 
 router.get('/entries/:id', (request, response) => {
   User.findById(request.params.id, '-password', (err, user) => {
@@ -70,22 +48,13 @@ router.post('/signin', (request, response) => {
   });
 });
 
-router.get('/verify', (request, response) => {
-  const token = request.headers[TOKEN] || false;
-
-  verifyToken(
-    token,
-    (user) => {
-      if (user.isAdmin) {
-        response.status(200).json(user);
-      } else {
-        response.status(403).send('Недостаточно прав');
-      }
-    },
-    () => {
-      response.status(401).send('Доступ запрещён');
-    },
-  );
+router.get('/verify', auth, (request, response) => {
+  console.log(request.user, request.userId);
+  if (request.user.isAdmin) {
+    response.status(200).json(request.user);
+  } else {
+    response.status(403).send('Недостаточно прав');
+  }
 });
 
 module.exports = router;

@@ -1,60 +1,40 @@
 const express = require('express');
 const Category = require('../models/category');
-const consts = require('../consts');
-const verifyToken = require('../utils/verify');
+const auth = require('../middleware/auth');
 require('../models/problem');
 
 const router = express.Router();
 
-const { TOKEN } = consts;
-
-router.post('/entries/', (request, response) => {
+router.post('/entries/', auth, (request, response) => {
   const { hash, name } = request.body;
-  const token = request.headers[TOKEN] || false;
 
-  verifyToken(
-    token,
-    () => {
-      Category.create({ hash, name }, (err, createdCategory) => {
-        if (!err && createdCategory) {
-          response.status(200).json(createdCategory);
-        } else {
-          response.status(500).send('Непредвиденная ошибка');
-        }
-      });
-    },
-    () => {
-      response.status(401).send('Неверный токен');
-    },
-  );
+  Category.create({ hash, name }, (err, createdCategory) => {
+    if (!err && createdCategory) {
+      response.status(200).json(createdCategory);
+    } else {
+      response.status(500).send('Непредвиденная ошибка');
+    }
+  });
 });
 
-router.put('/entries/:id', (request, response) => {
-  const token = request.headers[TOKEN];
-
-  verifyToken(
-    token,
-    () => {
-      Category.findOneAndUpdate(
-        { _id: request.params.id },
-        {
-          $set: request.body,
-        },
-        {
-          new: true,
-        },
-        (err, updatedCategory) => {
-          if (!err && updatedCategory) {
-            response.status(200).json({
-              id: updatedCategory._id,
-              name: updatedCategory.name,
-              hash: updatedCategory.hash,
-            });
-          }
-        },
-      );
+router.put('/entries/:id', auth, (request, response) => {
+  Category.findOneAndUpdate(
+    { _id: request.params.id },
+    {
+      $set: request.body,
     },
-    () => response.status(401).send('Неверный токен'),
+    {
+      new: true,
+    },
+    (err, updatedCategory) => {
+      if (!err && updatedCategory) {
+        response.status(200).json({
+          id: updatedCategory._id,
+          name: updatedCategory.name,
+          hash: updatedCategory.hash,
+        });
+      }
+    },
   );
 });
 

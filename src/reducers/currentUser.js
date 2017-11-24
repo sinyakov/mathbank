@@ -5,6 +5,7 @@ const defaultState = {
   isLoading: false,
   isLogged: false,
   error: null,
+  isFirstAttempt: true,
 };
 
 export default (state = defaultState, action) => {
@@ -16,6 +17,7 @@ export default (state = defaultState, action) => {
         error: null,
         isLogged: false,
         user: null,
+        isFirstAttempt: false,
       };
 
     case AUTH_SUCCESS:

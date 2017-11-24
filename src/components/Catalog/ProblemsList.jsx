@@ -6,6 +6,14 @@ import { withRouter } from 'react-router';
 import { getProblemsByCategoryId } from '../../actions/catalog';
 import Problem from '../Problem';
 import Loader from '../Loader';
+import Modal from '../Modal';
+import ProblemForm from '../ProblemForm';
+
+const renderAddProblemModalHandler = () => (
+  <button className="edit-btn edit-btn--add" type="button">
+    Добавить задачу
+  </button>
+);
 
 const fetchProblemsByCategory = (props) => {
   const {
@@ -16,12 +24,26 @@ const fetchProblemsByCategory = (props) => {
   } = props;
 
   const category = list.find(cat => cat.hash === params.category);
-  if (!problems[category.id]) {
+  if (category && !problems[category.id]) {
     handleGetProblemsByCategoryId(category.id);
   }
 };
 
 class ProblemsList extends Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.object,
+    }).isRequired,
+    problems: PropTypes.shape({
+      list: PropTypes.array.isRequired,
+      isLoading: PropTypes.bool.isRequired,
+    }).isRequired,
+    categories: PropTypes.shape({
+      list: PropTypes.array.isRequired,
+      isLoading: PropTypes.bool.isRequired,
+    }).isRequired,
+  };
+
   componentDidMount() {
     fetchProblemsByCategory(this.props);
   }
@@ -40,7 +62,7 @@ class ProblemsList extends Component {
     const { match: { params }, categories: { list }, problems } = this.props;
     const category = list.find(cat => cat.hash === params.category);
 
-    const currentProblems = problems[category.id];
+    const currentProblems = category && problems[category.id];
 
     if (!currentProblems) {
       return null;
@@ -55,9 +77,9 @@ class ProblemsList extends Component {
         <div className="catalog__admin">
           <button type="button">Редактировать категорию</button>
           <button type="button">Изменить порядок </button>
-          <button className="edit-btn edit-btn--add" type="button">
-            Добавить задачу
-          </button>
+          <Modal title="Добавить задачу" handler={renderAddProblemModalHandler()}>
+            <ProblemForm defaultCategory={category.id} />
+          </Modal>
         </div>
         {currentProblems.list.length === 0 ? (
           <div className="catalog__info">
@@ -75,20 +97,6 @@ class ProblemsList extends Component {
     );
   }
 }
-
-ProblemsList.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
-  problems: PropTypes.shape({
-    list: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
-  categories: PropTypes.shape({
-    list: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
-};
 
 const mapStateToProps = ({ problems, categories }) => ({
   problems,

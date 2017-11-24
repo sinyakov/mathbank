@@ -34,6 +34,14 @@ export const getCategories = () => (dispatch) => {
     });
 };
 
+export const fetchCategoryProblemsSuccess = (id, list) => ({
+  type: FETCH_CATEGORY_PROBLEMS_SUCCESS,
+  payload: {
+    id,
+    list,
+  },
+});
+
 export const getProblemsByCategoryId = id => (dispatch) => {
   dispatch({
     type: FETCH_CATEGORY_PROBLEMS_START,
@@ -44,13 +52,7 @@ export const getProblemsByCategoryId = id => (dispatch) => {
     .get(`${config.base_url}/category/entries/${id}`)
     .then(({ data: { list } }) => {
       setTimeout(() => {
-        dispatch({
-          type: FETCH_CATEGORY_PROBLEMS_SUCCESS,
-          payload: {
-            id,
-            list,
-          },
-        });
+        dispatch(fetchCategoryProblemsSuccess(id, list));
       }, 10);
     })
     .catch((error) => {

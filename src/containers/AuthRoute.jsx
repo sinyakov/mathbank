@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import Auth from '../components/Auth';
 import { verify } from '../actions/auth';
 import { TOKEN } from '../actions/constants';
 
-class AuthRoute extends React.Component {
+class AuthRoute extends Component {
   static propTypes = {
     handleVerify: PropTypes.func.isRequired,
     isLogged: PropTypes.bool.isRequired,

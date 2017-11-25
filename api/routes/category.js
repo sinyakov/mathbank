@@ -64,6 +64,7 @@ router.get('/entries/:id', (request, response) => {
           list: category.list.map(problem => ({
             id: problem._id,
             statement: problem.statement,
+            category: problem.category,
             answer: problem.answer,
           })),
         });

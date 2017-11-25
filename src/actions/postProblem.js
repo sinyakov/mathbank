@@ -22,7 +22,7 @@ const postNewProblemFailure = error => ({
   payload: error,
 });
 
-const shouldPostProblem = state => !state.problemForm.isHydrating;
+const shouldPostProblem = state => !state.postProblem.isHydrating;
 
 const getProblemList = (state, categoryId) =>
   (state.problems[categoryId] ? state.problems[categoryId].list : false);

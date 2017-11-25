@@ -8,7 +8,7 @@ import postProblem from '../../actions/postProblem';
 import { TOKEN } from '../../actions/constants';
 import Loader from '../Loader';
 
-class ProblemForm extends Component {
+class AddProblemForm extends Component {
   static defaultProps = {
     onToggle: null,
     error: '',
@@ -95,9 +95,11 @@ class ProblemForm extends Component {
               ))}
             </select>
           </div>
-          <button type="submit" className="primary-button">
-            Добавить
-          </button>
+          <div className="problem-form__buttons">
+            <button type="submit" className="primary-button">
+              Добавить
+            </button>
+          </div>
         </form>
         {error && <p className="auth__error">{error}</p>}
       </div>
@@ -105,14 +107,14 @@ class ProblemForm extends Component {
   }
 }
 
-const mapStateToProps = ({ problemForm, categories }) => ({
-  categories: categories.list,
-  error: problemForm.error,
-  isHydrating: problemForm.isHydrating,
+const mapStateToProps = store => ({
+  categories: store.categories.list,
+  error: store.postProblem.error,
+  isHydrating: store.postProblem.isHydrating,
 });
 
 const mapDispatchToProps = dispatch => ({
   handlePostProblem: (token, problem) => dispatch(postProblem(token, problem)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProblemForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddProblemForm);

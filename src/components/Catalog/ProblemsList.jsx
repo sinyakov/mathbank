@@ -7,7 +7,7 @@ import { getProblemsByCategoryId } from '../../actions/catalog';
 import Problem from '../Problem';
 import Loader from '../Loader';
 import Modal from '../Modal';
-import ProblemForm from '../ProblemForm';
+import AddProblemForm from '../ProblemForms/Add';
 
 const renderAddProblemModalHandler = () => (
   <button className="edit-btn edit-btn--add" type="button">
@@ -78,7 +78,7 @@ class ProblemsList extends Component {
           <button type="button">Редактировать категорию</button>
           <button type="button">Изменить порядок </button>
           <Modal title="Добавить задачу" handler={renderAddProblemModalHandler()}>
-            <ProblemForm defaultCategory={category.id} />
+            <AddProblemForm defaultCategory={category.id} />
           </Modal>
         </div>
         {currentProblems.list.length === 0 ? (
@@ -89,8 +89,15 @@ class ProblemsList extends Component {
             </span>
           </div>
         ) : (
-          currentProblems.list.map(({ id, statement, answer }, index) => (
-            <Problem key={id} order={index + 1} id={id} statement={statement} answer={answer} />
+          currentProblems.list.map((problem, index) => (
+            <Problem
+              key={problem.id}
+              order={index + 1}
+              id={problem.id}
+              statement={problem.statement}
+              answer={problem.answer}
+              category={problem.category}
+            />
           ))
         )}
       </div>

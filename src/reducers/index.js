@@ -5,7 +5,8 @@ import homeworks from './homeworks';
 import basket from './basket';
 import solvedProblems from './solvedProblems';
 import currentUser from './currentUser';
-import problemForm from './problemForm';
+import postProblem from './postProblem';
+import deleteProblem from './deleteProblem';
 
 export default combineReducers({
   categories,
@@ -14,5 +15,6 @@ export default combineReducers({
   solvedProblems,
   basket,
   currentUser,
-  problemForm,
+  postProblem,
+  deleteProblem,
 });

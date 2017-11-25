@@ -1,13 +1,10 @@
 const Problem = require('../models/problem');
 const express = require('express');
 const Category = require('../models/category');
-const consts = require('../consts');
 const auth = require('../middleware/auth');
 require('../models/problem');
 
 const router = express.Router();
-
-const { TOKEN } = consts;
 
 router.post('/entries', auth, (request, response) => {
   const { answer, statement, category } = request.body.problem;
@@ -54,13 +51,15 @@ router.post('/entries', auth, (request, response) => {
 });
 
 router.put('/entries/:id', auth, (request, response) => {
+  const { problem } = request.body;
   Problem.findOneAndUpdate(
     { _id: request.params.id },
     {
-      $set: request.body,
+      $set: request.body.problem,
     },
     (err, updatedProblem) => {
-      if (updatedProblem.category === request.body.category) {
+      console.log(updatedProblem, request.body.problem);
+      if (updatedProblem.category === request.body.problem.category) {
         if (!err && updatedProblem) {
           response.status(200).json({
             id: updatedProblem._id,
@@ -85,7 +84,7 @@ router.put('/entries/:id', auth, (request, response) => {
         ).exec((err) => {
           if (!err) {
             Category.update(
-              { _id: request.body.category },
+              { _id: request.body.problem.category },
               {
                 $push: {
                   list: request.params.id,

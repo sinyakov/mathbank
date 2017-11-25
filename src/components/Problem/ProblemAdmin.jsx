@@ -2,12 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addProblemToBasket, removeProblemFromBasket } from '../../actions/basket';
+import Modal from '../Modal';
+import UpdateProblemForm from '../ProblemForms/Update';
+
+const renderUpdateProblemModalHandler = () => (
+  <button className="problem__btn problem__btn--edit" type="button" title="Отредактировать задачу">
+    Отредактировать задачу
+  </button>
+);
 
 class ProblemAdmin extends Component {
   static propTypes = {
     basketList: PropTypes.arrayOf(PropTypes.object).isRequired,
     id: PropTypes.string.isRequired,
     statement: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
     answer: PropTypes.string,
     addProblemToBasket: PropTypes.func.isRequired,
     removeProblemFromBasket: PropTypes.func.isRequired,
@@ -26,6 +35,7 @@ class ProblemAdmin extends Component {
       id: this.props.id,
       statement: this.props.statement,
       answer: this.props.answer,
+      category: this.props.category,
     };
 
     return (
@@ -49,13 +59,14 @@ class ProblemAdmin extends Component {
             Удалить из корзины
           </button>
         )}
-        <button
-          className="problem__btn problem__btn--edit"
-          type="button"
-          title="Отредактировать задачу"
-        >
-          Отредактировать задачу
-        </button>
+        <Modal title="Редактировать задачу" handler={renderUpdateProblemModalHandler()}>
+          <UpdateProblemForm
+            problemId={problem.id}
+            defaultStatement={problem.statement}
+            defaultAnswer={problem.answer}
+            defaultCategory={problem.category}
+          />
+        </Modal>
       </div>
     );
   }

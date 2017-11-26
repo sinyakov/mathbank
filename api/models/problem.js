@@ -12,8 +12,7 @@ const problemSchema = new Schema({
     default: null,
   },
   category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
+    type: String,
     required: true,
   },
 });

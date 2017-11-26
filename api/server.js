@@ -9,14 +9,18 @@ const problem = require('./routes/problem');
 const cors = require('cors');
 const morgan = require('morgan');
 
-mongoose.connect(config.db.host).then(
-  () => {
-    console.log('Коннект');
-  },
-  (err) => {
-    throw new Error(err);
-  },
-);
+mongoose
+  .connect(`mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${
+    config.db.name
+  }`)
+  .then(
+    () => {
+      console.log('Коннект');
+    },
+    (err) => {
+      throw new Error(err);
+    },
+  );
 
 const app = express();
 

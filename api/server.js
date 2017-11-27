@@ -24,12 +24,14 @@ mongoose
 
 const app = express();
 
+const prefix = '/api';
+
 app.use(bodyParser());
 app.use(morgan('dev'));
 app.use(cors());
-app.use('/user', user);
-app.use('/category', category);
-app.use('/problem', problem);
+app.use(`${prefix}/user`, user);
+app.use(`${prefix}/category`, category);
+app.use(`${prefix}/problem`, problem);
 
 app.get('/', (req, res) => res.send('Hello API!'));
 

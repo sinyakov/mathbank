@@ -40,6 +40,7 @@ export default (token, problem, prevCategoryId) => (dispatch, getState) => {
       },
     })
       .then(({ data }) => {
+        console.log(data);
         dispatch(postNewProblemSuccess());
         const newCategoryList = getProblemList(getState(), problem.category);
         const prevCategoryList = getProblemList(getState(), prevCategoryId);
@@ -65,8 +66,10 @@ export default (token, problem, prevCategoryId) => (dispatch, getState) => {
           }
         }
 
-        dispatch(removeProblemFromBasket(problem.id));
-        dispatch(addProblemToBasket(problem));
+        if (getState().basket.list.find(p => p.id === problem.id)) {
+          dispatch(removeProblemFromBasket(problem.id));
+          dispatch(addProblemToBasket(problem));
+        }
 
         return Promise.resolve();
       })

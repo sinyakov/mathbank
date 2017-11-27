@@ -69,165 +69,6 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-.mobile-menu {
-  position: absolute;
-  top: 0;
-  left: -46px;
-  z-index: -100;
-  /* display: none; */
-  width: 38px;
-  height: 38px;
-  border-radius: 3px;
-  background: white;
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-  color: #fff;
-  text-align: center;
-  text-decoration: none;
-  text-decoration: none;
-  font-weight: 900;
-  font-size: 24px;
-  line-height: 38px;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
-}
-
-.hamburger {
-  position: absolute;
-  right: 10px;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: none;
-  box-shadow: none;
-  text-indent: -9999px;
-  font-size: 0;
-  cursor: pointer;
-  -webkit-transition: background 0.15s;
-  transition: background 0.15s;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.hamburger:focus {
-  outline: 0;
-}
-
-.hamburger span {
-  position: absolute;
-  top: 17px;
-  right: 8px;
-  left: 8px;
-  display: block;
-  height: 3px;
-  background: #fff;
-}
-
-.hamburger span::after,
-.hamburger span::before {
-  position: absolute;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 3px;
-  background-color: #fff;
-  content: '';
-}
-
-.hamburger--htla.is-active span::after,
-.hamburger--htla.is-active span::before,
-.hamburger--htra.is-active span::after,
-.hamburger--htra.is-active span::before {
-  width: 50%;
-}
-
-.hamburger span::before {
-  top: -8px;
-}
-
-.hamburger span::after {
-  bottom: -8px;
-}
-
-.hamburger--rot {
-  background-color: #28aadc;
-}
-
-.hamburger--rot span {
-  -webkit-transition: -webkit-transform 0.15s;
-  transition: transform 0.15s;
-}
-
-.hamburger--rot.is-active {
-  background-color: #166888;
-}
-
-.hamburger--rot.is-active span {
-  -webkit-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-
-.hamburger {
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.hamburger span {
-  -webkit-transition: background 0s 0.15s;
-  transition: background 0s 0.15s;
-}
-
-.hamburger span::after,
-.hamburger span::before {
-  -webkit-transition-delay: 0.15s, 0s;
-  transition-delay: 0.15s, 0s;
-  -webkit-transition-duration: 0.15s, 0.15s;
-  transition-duration: 0.15s, 0.15s;
-}
-
-.hamburger span::before {
-  -webkit-transition-property: top, -webkit-transform;
-  transition-property: top, transform;
-}
-
-.hamburger span::after {
-  -webkit-transition-property: bottom, -webkit-transform;
-  transition-property: bottom, transform;
-}
-
-.hamburger.is-active {
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.hamburger.is-active span {
-  background: 0 0;
-}
-
-.hamburger.is-active span::before {
-  top: 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.hamburger.is-active span::after {
-  bottom: 0;
-  -webkit-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-}
-
-.hamburger.is-active span::after,
-.hamburger.is-active span::before {
-  -webkit-transition-delay: 0s, 0.15s;
-  transition-delay: 0s, 0.15s;
-}
-
 .basket-count {
   position: absolute;
   top: 0;
@@ -395,19 +236,6 @@ body {
   background: #fea;
 }
 
-@media (max-width: 840px) {
-  /* .filter {
-    position: absolute;
-    z-index: 100;
-    display: none;
-    margin: 8px auto;
-    padding: 8px;
-    width: calc(100% - 32px);
-    border-radius: 3px;
-    background: rgba(0, 0, 0, 0.7);
-  } */
-}
-
 .catalog__info {
   margin: 12px 0;
   padding: 8px;
@@ -428,19 +256,6 @@ body {
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 1px #aaa;
   transition: background-color 0.4s ease-in-out;
-}
-
-.catalog__admin {
-  display: flex;
-  margin: 16px 0;
-  padding: 4px 8px;
-  border-radius: 3px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 1px #aaa;
-}
-
-.edit-btn--add {
-  margin-left: auto;
 }
 
 .catalog {
@@ -671,6 +486,31 @@ body {
   background: rgba(0, 0, 0, 0.7);
 }
 
+.modal__close {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-bottom: 2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url(./img/remove.svg);
+  background-position: center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  font-size: 0;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+}
+
+.modal__close:hover {
+  transform: rotate(180deg);
+}
+
 .modal__inner {
   position: relative;
   box-sizing: border-box;
@@ -678,14 +518,9 @@ body {
   padding: 16px;
   max-width: 640px;
   width: 100%;
-  border-radius: 3px;
+  border-radius: 6px;
   background: #fff;
-}
-
-.modal__close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .modal__header {
@@ -696,6 +531,8 @@ body {
 
 .modal__title {
   margin: 0 auto;
+  font-weight: 400;
+  font-size: 1.6em;
 }
 
 .modal__content {
@@ -719,7 +556,7 @@ body {
 }
 
 .auth__input {
-  margin: 8px 0;
+  margin: 0 0 16px;
   padding: 6px;
   border: none;
   border-radius: 3px;
@@ -779,4 +616,68 @@ body {
   display: flex;
   justify-content: space-between;
   margin: 8px 0;
+}
+
+.catalog__admin {
+  display: flex;
+  overflow: hidden;
+  margin: 16px 0;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 1px #aaa;
+}
+
+.edit-btn--add {
+  box-sizing: border-box;
+  margin: 0;
+  margin-left: auto;
+  padding: 4px 8px;
+  width: 128px;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(89, 203, 191, 0.85);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.admin__order {
+  display: flex;
+  margin: 0;
+  width: 160px;
+}
+
+.admin__order-start {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(255, 191, 89, 0.85);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.admin__order-save {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(120, 221, 140, 0.85);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.admin__order-cancel {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(252, 109, 109, 0.85);
+  font-size: 12px;
+  cursor: pointer;
 }

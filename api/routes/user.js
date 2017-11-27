@@ -30,9 +30,19 @@ router.post('/signin', (request, response) => {
     }
 
     if (user.password === password) {
-      const token = jwt.sign({ user }, config.secret, {
-        expiresIn: 60 * 60 * 24 * 3,
-      });
+      const token = jwt.sign(
+        {
+          user: {
+            login: user.login,
+            _id: user._id,
+            isAdmin: user.isAdmin,
+          },
+        },
+        config.secret,
+        {
+          expiresIn: 60 * 60 * 24 * 3,
+        },
+      );
 
       response.status(200).json({
         user: {
@@ -49,7 +59,6 @@ router.post('/signin', (request, response) => {
 });
 
 router.get('/verify', auth, (request, response) => {
-  console.log(request.user, request.userId);
   if (request.user.isAdmin) {
     response.status(200).json(request.user);
   } else {

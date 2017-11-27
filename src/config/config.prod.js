@@ -1,3 +1,3 @@
 export default {
-  base_url: 'http://localhost:3012',
+  base_url: 'http://mathbank.ru/api',
 };

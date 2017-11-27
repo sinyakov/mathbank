@@ -5,6 +5,7 @@ import { InlineTex } from 'react-tex';
 
 import CheckAnswerForm from './CheckAnswerForm';
 import PromlemAdmin from './ProblemAdmin';
+import IsAuth from '../IsAuth';
 
 class Problem extends Component {
   state = { hasError: false };
@@ -15,7 +16,7 @@ class Problem extends Component {
 
   render() {
     const {
-      order, id, statement, answer, solvedProblems, isAdmin,
+      order, id, statement, answer, solvedProblems,
     } = this.props;
 
     return this.state.hasError ? (
@@ -37,7 +38,9 @@ class Problem extends Component {
             </div>
           )}
         </div>
-        {isAdmin && <PromlemAdmin {...this.props} />}
+        <IsAuth>
+          <PromlemAdmin {...this.props} />
+        </IsAuth>
       </div>
     );
   }
@@ -56,9 +59,8 @@ Problem.defaultProps = {
   answer: null,
 };
 
-const mapStateToProps = ({ solvedProblems, currentUser }) => ({
+const mapStateToProps = ({ solvedProblems }) => ({
   solvedProblems,
-  isAdmin: currentUser.user ? currentUser.user.isAdmin : false,
 });
 
 export default connect(mapStateToProps)(Problem);

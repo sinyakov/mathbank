@@ -51,9 +51,6 @@ class Basket extends Component {
           </h1>
         </header>
         <SortableList items={this.props.problemsList} onSortEnd={this.onSortEnd} section="basket" />
-        <button type="submit" className="primary-button">
-          Сохранить
-        </button>
       </div>
     );
   }

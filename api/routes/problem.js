@@ -51,12 +51,12 @@ router.post('/entries', auth, (request, response) => {
 });
 
 router.put('/entries/:id', auth, (request, response) => {
-  const { problem } = request.body;
   Problem.findOneAndUpdate(
     { _id: request.params.id },
     {
       $set: request.body.problem,
     },
+    { new: true },
     (err, updatedProblem) => {
       console.log(updatedProblem, request.body.problem);
       if (updatedProblem.category === request.body.problem.category) {

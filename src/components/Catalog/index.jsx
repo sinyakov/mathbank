@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import { getCategories } from '../../actions/catalog';
 import Categories from './Categories';
-import BasketCounter from '../BasketCounter';
 import ProblemsList from './ProblemsList';
 import Loader from '../Loader';
+import Header from '../Header';
 
 class Catalog extends Component {
   componentDidMount() {
@@ -16,21 +16,6 @@ class Catalog extends Component {
       handleGetCategories();
     }
   }
-
-  renderHeader = category => (
-    <div>
-      <header className="category-header">
-        <h1 className="category-header__title">
-          <div className="category-header__title-outer">
-            <div className="category-header__title-inner">
-              {category ? category.name : 'Категория отсутствует'}
-            </div>
-          </div>
-        </h1>
-        <BasketCounter />
-      </header>
-    </div>
-  );
 
   render() {
     const { categories: { list, isLoading }, match: { params } } = this.props;
@@ -43,7 +28,7 @@ class Catalog extends Component {
 
     return (
       <div>
-        {this.renderHeader(category)}
+        <Header title={category ? category.name : 'Категория отсутствует'} showBasketCounter />
         <Categories />
         <ProblemsList />
       </div>

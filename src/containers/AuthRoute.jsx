@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import cookies from 'js-cookie';
 
 import Loader from '../components/Loader';
+import Header from '../components/Header';
 import Auth from '../components/Auth';
 import { verify } from '../actions/auth';
 import { TOKEN } from '../actions/constants';
@@ -15,7 +16,6 @@ class AuthRoute extends Component {
     handleVerify: PropTypes.func.isRequired,
     isLogged: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    routeComponent: PropTypes.element.isRequired,
   };
 
   componentDidMount() {
@@ -25,23 +25,18 @@ class AuthRoute extends Component {
   }
 
   render() {
-    const { isLogged, routeComponent, isLoading } = this.props;
+    const { isLogged, isLoading } = this.props;
 
     if (!isLogged && isLoading) {
-      return <Route {...this.props} render={() => <Loader />} />;
+      return <Route render={() => <Loader />} />;
     }
 
     if (!isLogged) {
       return (
         <Route
-          {...this.props}
           render={() => (
             <div>
-              <h1 className="category-header__title">
-                <div className="category-header__title-outer">
-                  <div className="category-header__title-inner">Требуется авторизация</div>
-                </div>
-              </h1>
+              <Header title="Требуется авторизация" showBackLink />
               <Auth />
             </div>
           )}
@@ -49,9 +44,7 @@ class AuthRoute extends Component {
       );
     }
 
-    return (
-      <Route {...this.props} render={() => <div>{React.createElement(routeComponent)}</div>} />
-    );
+    return <Route {...this.props} />;
   }
 }
 

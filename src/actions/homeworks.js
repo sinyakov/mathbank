@@ -2,29 +2,35 @@ import axios from 'axios';
 import config from '../config';
 import { FETCH_HOMEWORK_START, FETCH_HOMEWORK_SUCCESS, FETCH_HOMEWORK_FAILURE } from './constants';
 
-export const getHomework = id => (dispatch) => {
-  dispatch({
-    type: FETCH_HOMEWORK_START,
-    payload: id,
-  });
+const shouldFetchHomework = (state, id) =>
+  !state.homeworks[id] ||
+  (state.homeworks[id] && !state.homeworks[id].isLoading && state.homeworks[id].list);
 
-  return axios
-    .get(`${config.base_url}/homeworks/${id}`)
-    .then(({ data }) =>
-      setTimeout(() => {
+export const getHomework = id => (dispatch, getState) => {
+  if (shouldFetchHomework(getState(), id)) {
+    dispatch({
+      type: FETCH_HOMEWORK_START,
+      payload: id,
+    });
+
+    return axios
+      .get(`${config.base_url}/homework/entry/${id}`)
+      .then(({ data }) => {
         dispatch({
           type: FETCH_HOMEWORK_SUCCESS,
           payload: { ...data, id },
         });
-      }, 20))
-    .catch((error) => {
-      setTimeout(() => {
+        return Promise.resolve(data);
+      })
+      .catch((error) => {
         dispatch({
           type: FETCH_HOMEWORK_FAILURE,
           payload: { error, id },
         });
-      }, 20);
-    });
+        return Promise.reject(error);
+      });
+  }
+  return Promise.resolve();
 };
 
 export const addHomework = () => {};

@@ -40,7 +40,6 @@ export default (token, problem, prevCategoryId) => (dispatch, getState) => {
       },
     })
       .then(({ data }) => {
-        console.log(data);
         dispatch(postNewProblemSuccess());
         const newCategoryList = getProblemList(getState(), problem.category);
         const prevCategoryList = getProblemList(getState(), prevCategoryId);

@@ -11,7 +11,6 @@ import { getProblemsByCategoryId } from '../../actions/catalog';
 import reorderCategoryProblems from '../../actions/reorderCategoryProblems';
 import Problem from '../Problem';
 import Loader from '../Loader';
-import IsAuth from '../IsAuth';
 import Modal from '../Modal';
 import AddProblemForm from '../ProblemForms/Add';
 
@@ -71,14 +70,22 @@ class ProblemsList extends Component {
       params: PropTypes.object,
     }).isRequired,
     problems: PropTypes.shape({
-      list: PropTypes.array.isRequired,
-      isLoading: PropTypes.bool.isRequired,
+      list: PropTypes.array,
+      isLoading: PropTypes.bool,
     }).isRequired,
     categories: PropTypes.shape({
       list: PropTypes.array.isRequired,
       isLoading: PropTypes.bool.isRequired,
     }).isRequired,
     handleReorderCategoryProblems: PropTypes.func.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    problems: PropTypes.shape({
+      list: [],
+      isLoading: true,
+    }).isRequired,
   };
 
   state = {
@@ -93,8 +100,8 @@ class ProblemsList extends Component {
   componentWillReceiveProps(nextProps) {
     const { match: { params } } = this.props;
     const { match: { params: nextParams } } = nextProps;
-
     const isRouteChanged = params.category !== nextParams.category;
+
     if (isRouteChanged) {
       fetchProblemsByCategory(nextProps);
       this.setState({ isEditing: false });
@@ -132,9 +139,10 @@ class ProblemsList extends Component {
   };
 
   render() {
-    const { match: { params }, categories: { list }, problems } = this.props;
+    const {
+      match: { params }, categories: { list }, problems, isAdmin,
+    } = this.props;
     const category = list.find(cat => cat.hash === params.category);
-
     const currentProblems = category && problems[category.id];
 
     if (!currentProblems) {
@@ -147,7 +155,7 @@ class ProblemsList extends Component {
 
     return (
       <div className="catalog">
-        <IsAuth>
+        {isAdmin && (
           <div className="catalog__admin">
             {!this.state.isEditing ? (
               <div className="admin__order">
@@ -177,7 +185,7 @@ class ProblemsList extends Component {
               <AddProblemForm defaultCategory={category.id} />
             </Modal>
           </div>
-        </IsAuth>
+        )}
         {currentProblems.list.length === 0 ? (
           <div className="catalog__info">
             Нет ни одной задачи&nbsp;
@@ -193,9 +201,10 @@ class ProblemsList extends Component {
   }
 }
 
-const mapStateToProps = ({ problems, categories }) => ({
+const mapStateToProps = ({ problems, categories, currentUser }) => ({
   problems,
   categories,
+  isAdmin: currentUser.user ? currentUser.user.isAdmin : false,
 });
 
 const mapDispatchToProps = dispatch => ({

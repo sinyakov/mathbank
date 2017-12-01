@@ -20,7 +20,7 @@ export default (state = defaultState, action) => {
         ...state,
         [action.payload.id]: {
           isLoading: false,
-          date: action.payload.date,
+          title: action.payload.title,
           list: action.payload.list,
         },
       };

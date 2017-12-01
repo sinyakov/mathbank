@@ -16,7 +16,7 @@ const App = () => (
         <Switch>
           <DefaultRoute exact path="/category/:category" component={Catalog} />
           <DefaultRoute exact path="/homework/:homework" component={Homework} />
-          <AuthRoute exact path="/basket" routeComponent={Basket} />
+          <AuthRoute exact path="/basket" component={Basket} />
           <Redirect from="/" to="/category/proportions" />
         </Switch>
       </BrowserRouter>

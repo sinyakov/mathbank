@@ -19,8 +19,7 @@ export default (state = defaultState, action) => {
       };
     case POST_NEW_PROBLEM_SUCCESS:
       return {
-        ...state,
-        isHydrating: false,
+        ...defaultState,
       };
     case POST_NEW_PROBLEM_FAILURE:
       return {

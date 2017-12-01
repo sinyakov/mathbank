@@ -1,79 +1,125 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
+
 import { addProblemToBasket, removeProblemFromBasket } from '../../actions/basket';
-import Modal from '../Modal';
 import UpdateProblemForm from '../ProblemForms/Update';
 
+import cart from './img/cart.svg';
+import remove from './img/remove.svg';
+import pen from './img/pen.svg';
+
+import Modal from '../Modal';
+
+const Panel = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 9px;
+  padding: 4px;
+  padding-left: 9px;
+  min-height: 48px;
+  border-left: 1px solid #ddd;
+`;
+
+const Button = styled.button`
+  display: flex;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: ${props => props.backgroundColor};
+  background-image: url(${props => props.backgroundImage});
+  background-position: center;
+  background-size: 12px;
+  background-repeat: no-repeat;
+  font-size: 0;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 2px #999;
+  }
+`;
+
 const renderUpdateProblemModalHandler = () => (
-  <button className="problem__btn problem__btn--edit" type="button" title="Отредактировать задачу">
+  <Button
+    type="button"
+    title="Отредактировать задачу"
+    backgroundColor="rgb(165, 165, 165)"
+    backgroundImage={pen}
+  >
     Отредактировать задачу
-  </button>
+  </Button>
 );
 
-class ProblemAdmin extends Component {
-  static propTypes = {
-    basketList: PropTypes.arrayOf(PropTypes.object).isRequired,
-    id: PropTypes.string.isRequired,
-    statement: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    answer: PropTypes.string,
-    addProblemToBasket: PropTypes.func.isRequired,
-    removeProblemFromBasket: PropTypes.func.isRequired,
+const basketContainsProblem = (list, id) => list.find(problem => problem.id === id);
+
+const ProblemAdmin = (props) => {
+  const problem = {
+    id: props.id,
+    statement: props.statement,
+    category: props.category,
+    answer: props.answer,
   };
 
-  static defaultProps = {
-    answer: null,
-  };
-
-  basketContainsProblem() {
-    return this.props.basketList.find(problem => problem.id === this.props.id);
+  if (!props.isAdmin) {
+    return null;
   }
 
-  render() {
-    const problem = {
-      id: this.props.id,
-      statement: this.props.statement,
-      answer: this.props.answer,
-      category: this.props.category,
-    };
+  return (
+    <Panel>
+      {!basketContainsProblem(props.basketList, problem.id) ? (
+        <Button
+          type="button"
+          onClick={() => props.addProblemToBasket(problem)}
+          title="Добавить в корзину"
+          backgroundColor="rgb(88, 203, 115)"
+          backgroundImage={cart}
+        >
+          Добавить в корзину
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          onClick={() => props.removeProblemFromBasket(problem.id)}
+          title="Удалить из корзины"
+          backgroundColor="rgb(228, 100, 100)"
+          backgroundImage={remove}
+        >
+          Удалить из корзины
+        </Button>
+      )}
+      <Modal title="Редактировать задачу" handler={renderUpdateProblemModalHandler()}>
+        <UpdateProblemForm
+          problemId={problem.id}
+          defaultStatement={problem.statement}
+          defaultAnswer={problem.answer}
+          defaultCategory={problem.category}
+        />
+      </Modal>
+    </Panel>
+  );
+};
 
-    return (
-      <div className="problem__admin">
-        {!this.basketContainsProblem(problem) ? (
-          <button
-            className="problem__btn problem__btn--add"
-            type="button"
-            onClick={() => this.props.addProblemToBasket(problem)}
-            title="Добавить в корзину"
-          >
-            Добавить в корзину
-          </button>
-        ) : (
-          <button
-            className="problem__btn problem__btn--remove"
-            type="button"
-            onClick={() => this.props.removeProblemFromBasket(problem.id)}
-            title="Удалить из корзины"
-          >
-            Удалить из корзины
-          </button>
-        )}
-        <Modal title="Редактировать задачу" handler={renderUpdateProblemModalHandler()}>
-          <UpdateProblemForm
-            problemId={problem.id}
-            defaultStatement={problem.statement}
-            defaultAnswer={problem.answer}
-            defaultCategory={problem.category}
-          />
-        </Modal>
-      </div>
-    );
-  }
-}
+ProblemAdmin.propTypes = {
+  basketList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  id: PropTypes.string.isRequired,
+  statement: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  answer: PropTypes.string,
+  addProblemToBasket: PropTypes.func.isRequired,
+  removeProblemFromBasket: PropTypes.func.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+};
 
-const mapStateToProps = ({ basket }) => ({
+ProblemAdmin.defaultProps = {
+  answer: null,
+};
+
+const mapStateToProps = ({ basket, currentUser }) => ({
   basketList: basket.list,
+  isAdmin: currentUser.user ? currentUser.user.isAdmin : false,
 });
 
 const mapDispatchToProps = dispatch => ({

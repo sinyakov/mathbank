@@ -23,8 +23,8 @@ export default class Preview extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="problem-form__preview">
-          Невалидный tex{' '}
+        <div>
+          Невалидный tex&nbsp;
           <span role="img" aria-label="attention">
             ☝🏼
           </span>
@@ -32,10 +32,6 @@ export default class Preview extends Component {
       );
     }
 
-    return (
-      <div className="problem-form__preview">
-        <InlineTex texContent={this.props.text} texSeperator="$" />
-      </div>
-    );
+    return <InlineTex texContent={this.props.text} texSeperator="$" />;
   }
 }

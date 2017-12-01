@@ -3,7 +3,7 @@ import cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Preview from './Preview';
+import Preview from '../Problem/TexPreview';
 import putProblem from '../../actions/putProblem';
 import deleteProblem from '../../actions/deleteProblem';
 import { TOKEN } from '../../actions/constants';
@@ -87,7 +87,9 @@ class AddProblemForm extends Component {
               rows="5"
               className="problem-form__statement"
             />
-            <Preview text={this.state.statement} />
+            <div className="problem-form__preview">
+              <Preview text={this.state.statement} />
+            </div>
             <input
               value={this.state.answer}
               type="text"

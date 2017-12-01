@@ -10,7 +10,6 @@ import { TOKEN } from '../actions/constants';
 class DefaultRoute extends Component {
   static propTypes = {
     handleVerify: PropTypes.func.isRequired,
-    routeComponent: PropTypes.element.isRequired,
     isFirstAttempt: PropTypes.bool.isRequired,
   };
 
@@ -24,11 +23,7 @@ class DefaultRoute extends Component {
   }
 
   render() {
-    const { routeComponent } = this.props;
-
-    return (
-      <Route {...this.props} render={() => <div>{React.createElement(routeComponent)}</div>} />
-    );
+    return <Route {...this.props} />;
   }
 }
 

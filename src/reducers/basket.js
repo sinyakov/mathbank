@@ -3,11 +3,15 @@ import {
   REMOVE_PROBLEM_FROM_BASKET,
   REORDER_PROBLEMS_IN_BASKET,
   CLEAR_BASKET,
+  CREATE_HOMEWORK_START,
+  CREATE_HOMEWORK_SUCCESS,
+  CREATE_HOMEWORK_FAILURE,
 } from '../actions/constants';
 
 const defaultState = {
-  name: 'Домашнее задание',
   list: [],
+  isHydrating: false,
+  error: null,
 };
 
 export default (state = defaultState, action) => {
@@ -31,6 +35,23 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         list: [],
+      };
+    case CREATE_HOMEWORK_START:
+      return {
+        ...state,
+        isHydrating: true,
+      };
+    case CREATE_HOMEWORK_SUCCESS:
+      return {
+        ...state,
+        isHydrating: false,
+        error: null,
+      };
+    case CREATE_HOMEWORK_FAILURE:
+      return {
+        ...state,
+        isHydrating: false,
+        error: action.payload,
       };
     default:
       return state;

@@ -8,7 +8,6 @@ module.exports = (request, response, next) => {
 
   if (token) {
     jwt.verify(token, config.secret, (err, decoded) => {
-      console.log(decoded, err);
       if (!err && decoded.user) {
         User.findById(decoded.user._id, (err, user) => {
           if (err) {

@@ -6,6 +6,7 @@ const config = require('./config');
 const user = require('./routes/user');
 const category = require('./routes/category');
 const problem = require('./routes/problem');
+const homework = require('./routes/homework');
 const cors = require('cors');
 const morgan = require('morgan');
 
@@ -32,6 +33,7 @@ app.use(cors());
 app.use(`${prefix}/user`, user);
 app.use(`${prefix}/category`, category);
 app.use(`${prefix}/problem`, problem);
+app.use(`${prefix}/homework`, homework);
 
 app.get('/', (req, res) => res.send('Hello API!'));
 

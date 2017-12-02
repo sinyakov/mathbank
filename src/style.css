@@ -37,37 +37,6 @@ body {
   animation: fadein 0.35s ease-in;
 }
 
-.check-answer {
-  display: flex;
-  overflow: hidden;
-  max-width: 240px;
-  border: 1px solid rgba(194, 194, 194, 0.45);
-  border-radius: 3px;
-  transition: all 0.3s ease-in-out;
-}
-
-.check-answer__input {
-  flex: 1 0;
-  margin: 0;
-  padding: 0px 8px;
-  border: none;
-  font-size: 14px;
-}
-
-.check-answer__button {
-  margin: 0;
-  border: none;
-  background: rgba(194, 194, 194, 0.25);
-  font-size: 20px;
-  line-height: 1;
-}
-
-@media (max-width: 450px) {
-  .check-answer {
-    max-width: 100%;
-  }
-}
-
 .primary-button {
   display: block;
   padding: 4px 16px;

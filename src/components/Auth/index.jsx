@@ -55,7 +55,9 @@ class Auth extends Component {
   };
 
   render() {
-    const { error } = this.props;
+    if (this.props.error) {
+      console.log(this.props.error);
+    }
 
     return (
       <div>
@@ -82,7 +84,6 @@ class Auth extends Component {
             Войти
           </button>
         </form>
-        <p className="auth__error">{error}</p>
       </div>
     );
   }

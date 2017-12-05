@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 
 import store from './store';
 import Catalog from './components/Catalog';
@@ -9,9 +10,16 @@ import Basket from './components/Basket';
 import AuthRoute from './containers/AuthRoute';
 import DefaultRoute from './containers/DefaultRoute';
 
+const Wrapper = styled.div`
+  position: relative;
+  margin: 24px auto;
+  padding: 0 8px;
+  max-width: 720px;
+`;
+
 const App = () => (
   <Provider store={store}>
-    <div className="wrap">
+    <Wrapper>
       <BrowserRouter>
         <Switch>
           <DefaultRoute exact path="/category/:category" component={Catalog} />
@@ -20,7 +28,7 @@ const App = () => (
           <Redirect from="/" to="/category/proportions" />
         </Switch>
       </BrowserRouter>
-    </div>
+    </Wrapper>
   </Provider>
 );
 

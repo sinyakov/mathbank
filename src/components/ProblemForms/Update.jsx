@@ -8,6 +8,8 @@ import putProblem from '../../actions/putProblem';
 import deleteProblem from '../../actions/deleteProblem';
 import { TOKEN } from '../../actions/constants';
 
+import { Wrapper, Statement, PreviewWrapper, Category, Answer, Buttons, Button } from './Styled';
+
 class AddProblemForm extends Component {
   static defaultProps = {
     defaultAnswer: null,
@@ -44,8 +46,8 @@ class AddProblemForm extends Component {
     e.preventDefault();
 
     const problem = {
-      id: this.props.problemId,
       ...this.state,
+      id: this.props.problemId,
     };
 
     handlePutProblem(cookies.get(TOKEN), problem, defaultCategory)
@@ -93,9 +95,9 @@ class AddProblemForm extends Component {
 
     return (
       <div>
-        <form onSubmit={e => this.handleSubmit(e)} className="problem-form">
-          <div className="problem-form__inner">
-            <textarea
+        <form onSubmit={e => this.handleSubmit(e)}>
+          <Wrapper>
+            <Statement
               value={this.state.statement}
               onChange={this.handleInputChange}
               name="statement"
@@ -103,10 +105,10 @@ class AddProblemForm extends Component {
               rows="5"
               className="problem-form__statement"
             />
-            <div className="problem-form__preview">
+            <PreviewWrapper>
               <Preview text={this.state.statement} />
-            </div>
-            <input
+            </PreviewWrapper>
+            <Answer
               value={this.state.answer}
               type="text"
               name="answer"
@@ -114,7 +116,7 @@ class AddProblemForm extends Component {
               onChange={this.handleInputChange}
               className="problem-form__answer"
             />
-            <select
+            <Category
               name="category"
               defaultValue={this.state.category}
               onChange={this.handleInputChange}
@@ -125,20 +127,16 @@ class AddProblemForm extends Component {
                   {category.name}
                 </option>
               ))}
-            </select>
-          </div>
-          <div className="problem-form__buttons">
-            <button
-              type="button"
-              className="primary-button primary-button--warn"
-              onClick={e => this.handleDelete(e)}
-            >
+            </Category>
+          </Wrapper>
+          <Buttons>
+            <Button warn type="button" onClick={e => this.handleDelete(e)}>
               Удалить
-            </button>
-            <button type="submit" className="primary-button">
+            </Button>
+            <Button type="submit" className="primary-button">
               Сохранить
-            </button>
-          </div>
+            </Button>
+          </Buttons>
         </form>
       </div>
     );

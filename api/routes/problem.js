@@ -56,17 +56,10 @@ router.put('/entries/:id', auth, (request, response) => {
     {
       $set: request.body.problem,
     },
-    { new: true },
     (err, updatedProblem) => {
-      console.log(updatedProblem, request.body.problem);
       if (updatedProblem.category === request.body.problem.category) {
         if (!err && updatedProblem) {
-          response.status(200).json({
-            id: updatedProblem._id,
-            answer: updatedProblem.answer,
-            statement: updatedProblem.statement,
-            category: updatedProblem.category,
-          });
+          response.status(200).json(request.body.problem);
         } else {
           response.status(500).json({
             message: 'Ошибка сервера',

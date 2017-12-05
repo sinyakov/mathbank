@@ -1,14 +1,67 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
-import cookies from 'js-cookie';
-import { connect } from 'react-redux';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import styled, { keyframes } from 'styled-components';
+import cookies from 'js-cookie';
 
 import { reorderProblems, createHomework } from '../../actions/basket';
 import Problem from '../Problem';
 import Header from '../Header';
 import { TOKEN } from '../../actions/constants';
+
+const Form = styled.form`
+  display: flex;
+  margin: 16px 0;
+`;
+
+const Input = styled.input`
+  flex: 1 0;
+  margin: 8px 0;
+  margin-right: 16px;
+  padding: 6px;
+  width: 55%;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 0 2px #999;
+  font-size: 16px;
+`;
+
+const Button = styled.button`
+  margin: 8px 0;
+  padding: 6px;
+  width: 120px;
+  border: none;
+  border-radius: 3px;
+  background: rgba(255, 255, 140, 0.9);
+  box-shadow: 0 0 2px #999;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 140, 0.8);
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const Message = styled.div`
+  margin: 12px 0;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: rgba(254, 255, 202, 0.9);
+  box-shadow: 0 0 1px #aaa;
+  font-size: 17px;
+  animation: ${fadeIn} 0.35s ease-in;
+`;
 
 const SortableItem = SortableElement(({ problemData }) => <Problem {...problemData} />);
 
@@ -42,6 +95,9 @@ class Basket extends Component {
 
   saveHomework = (e) => {
     e.preventDefault();
+    console.log({
+      title: this.title,
+    });
     this.props
       .handleCreateHomework(cookies.get(TOKEN), {
         list: this.props.problemsList.map(problem => problem.id),
@@ -63,28 +119,24 @@ class Basket extends Component {
         <SortableList items={this.props.problemsList} onSortEnd={this.onSortEnd} />
 
         {this.props.problemsList.length ? (
-          <form onSubmit={e => this.saveHomework(e)} className="basket-form">
-            <input
+          <Form onSubmit={e => this.saveHomework(e)}>
+            <Input
               type="text"
               placeholder="Домашнее задание"
-              defaultValue="Домашнее задание"
-              ref={(e) => {
+              defaultValue="Домашнее задание "
+              innerRef={(e) => {
                 this.title = e;
               }}
-              className="basket-form-input"
             />
-
-            <button type="submit" className="basket-form-btn">
-              Сохранить
-            </button>
-          </form>
+            <Button type="submit">Сохранить</Button>
+          </Form>
         ) : (
-          <div className="catalog__info">
+          <Message>
             Нет ни одной задачи&nbsp;
             <span role="img" aria-labelledby="sad">
               😔
             </span>
-          </div>
+          </Message>
         )}
       </div>
     );

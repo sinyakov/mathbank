@@ -5,6 +5,7 @@ import cookies from 'js-cookie';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import styled, { keyframes } from 'styled-components';
 
 import { TOKEN } from '../../actions/constants';
 import { getProblemsByCategoryId } from '../../actions/catalog';
@@ -14,20 +15,105 @@ import Loader from '../Loader';
 import Modal from '../Modal';
 import AddProblemForm from '../ProblemForms/Add';
 
-const renderAddProblemModalHandler = () => (
-  <button className="edit-btn edit-btn--add" type="button">
-    Новая задача
-  </button>
-);
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const Wrapper = styled.div`
+  margin: 16px 0;
+  animation: ${fadeIn} 0.35s ease-in;
+`;
+
+const Admin = styled.div`
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+  margin: 16px 0;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 1px #aaa;
+`;
+
+const AddButton = styled.button`
+  box-sizing: border-box;
+  margin: 0;
+  margin-left: auto;
+  padding: 4px 8px;
+  width: 128px;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(89, 203, 191, 0.85);
+  font-size: 14px;
+  cursor: pointer;
+`;
+
+const Reorder = styled.div`
+  display: flex;
+  margin: 0;
+  width: 160px;
+`;
+
+const ReorderStartButton = styled.button`
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(255, 191, 89, 0.85);
+  font-size: 14px;
+  cursor: pointer;
+`;
+
+const ReorderSaveButton = styled.button`
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(120, 221, 140, 0.85);
+  font-size: 12px;
+  cursor: pointer;
+`;
+
+const ReorderCancelButton = styled.button`
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(252, 109, 109, 0.85);
+  font-size: 12px;
+  cursor: pointer;
+`;
+
+const Message = styled.div`
+  margin: 12px 0;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: rgba(254, 255, 202, 0.9);
+  box-shadow: 0 0 1px #aaa;
+  font-size: 17px;
+  animation: ${fadeIn} 0.35s ease-in;
+`;
+
+const renderAddProblemModalHandler = () => <AddButton type="button">Новая задача</AddButton>;
 
 const SortableItem = SortableElement(({ problemData }) => <Problem {...problemData} />);
 
 const SortableList = SortableContainer(({ items }) => (
-  <div className="catalog">
+  <Wrapper>
     {items.map((problem, index) => (
       <SortableItem key={problem.id} index={index} problemData={{ ...problem, order: index + 1 }} />
     ))}
-  </div>
+  </Wrapper>
 ));
 
 const renderList = (temp, list, isEditing, onSortEnd) => {
@@ -154,49 +240,45 @@ class ProblemsList extends Component {
     }
 
     return (
-      <div className="catalog">
+      <Wrapper>
         {isAdmin && (
-          <div className="catalog__admin">
-            {!this.state.isEditing ? (
-              <div className="admin__order">
-                <button onClick={this.onReorder} type="button" className="admin__order-start">
+          <Admin>
+            <Reorder>
+              {!this.state.isEditing ? (
+                <ReorderStartButton onClick={this.onReorder} type="button">
                   Изменить порядок
-                </button>
-              </div>
-            ) : (
-              <div className="admin__order">
-                <button
-                  onClick={() => this.onSaveReorder(category.id, this.state.temp)}
-                  type="button"
-                  className="admin__order-save"
-                >
-                  Сохранить
-                </button>
-                <button
-                  onClick={this.onCancelReorder}
-                  type="button"
-                  className="admin__order-cancel"
-                >
-                  Отменить
-                </button>
-              </div>
-            )}
+                </ReorderStartButton>
+              ) : (
+                <Reorder>
+                  <ReorderSaveButton
+                    onClick={() => this.onSaveReorder(category.id, this.state.temp)}
+                    type="button"
+                  >
+                    Сохранить
+                  </ReorderSaveButton>
+                  <ReorderCancelButton onClick={this.onCancelReorder} type="button">
+                    Отменить
+                  </ReorderCancelButton>
+                </Reorder>
+              )}{' '}
+            </Reorder>
+
             <Modal title="Новая задача" handler={renderAddProblemModalHandler()}>
               <AddProblemForm defaultCategory={category.id} />
             </Modal>
-          </div>
+          </Admin>
         )}
         {currentProblems.list.length === 0 ? (
-          <div className="catalog__info">
+          <Message>
             Нет ни одной задачи&nbsp;
             <span role="img" aria-labelledby="sad">
               😔
             </span>
-          </div>
+          </Message>
         ) : (
           renderList(this.state.temp, currentProblems.list, this.state.isEditing, this.onSortEnd)
         )}
-      </div>
+      </Wrapper>
     );
   }
 }

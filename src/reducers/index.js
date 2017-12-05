@@ -6,6 +6,7 @@ import basket from './basket';
 import solvedProblems from './solvedProblems';
 import currentUser from './currentUser';
 import postProblem from './postProblem';
+import putProblem from './putProblem';
 import deleteProblem from './deleteProblem';
 
 export default combineReducers({
@@ -16,5 +17,6 @@ export default combineReducers({
   basket,
   currentUser,
   postProblem,
+  putProblem,
   deleteProblem,
 });

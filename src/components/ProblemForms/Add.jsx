@@ -8,11 +8,12 @@ import postProblem from '../../actions/postProblem';
 import { TOKEN } from '../../actions/constants';
 import Loader from '../Loader';
 
+import { Wrapper, Statement, PreviewWrapper, Category, Answer, Buttons, Button } from './Styled';
+
 class AddProblemForm extends Component {
   static defaultProps = {
     onToggle: null,
     onError: null,
-    error: '',
     defaultCategory: '',
   };
 
@@ -20,7 +21,6 @@ class AddProblemForm extends Component {
     handlePostProblem: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
     onError: PropTypes.func,
-    error: PropTypes.string,
     defaultCategory: PropTypes.string,
     categories: PropTypes.arrayOf(PropTypes.object).isRequired,
     isHydrating: PropTypes.bool.isRequired,
@@ -59,7 +59,7 @@ class AddProblemForm extends Component {
   };
 
   render() {
-    const { categories, error, isHydrating } = this.props;
+    const { categories, isHydrating } = this.props;
 
     if (isHydrating) {
       return (
@@ -71,47 +71,41 @@ class AddProblemForm extends Component {
 
     return (
       <div>
-        <form onSubmit={e => this.handleSubmit(e)} className="problem-form">
-          <div className="problem-form__inner">
-            <textarea
+        <form onSubmit={e => this.handleSubmit(e)}>
+          <Wrapper>
+            <Statement
               value={this.state.statement}
               onChange={this.handleInputChange}
               name="statement"
               cols="30"
               rows="5"
-              className="problem-form__statement"
             />
-            <div className="problem-form__preview">
+            <PreviewWrapper>
               <Preview text={this.state.statement} />
-            </div>
-            <input
+            </PreviewWrapper>
+            <Answer
               value={this.state.answer}
               type="text"
               name="answer"
               placeholder="Ответ"
               onChange={this.handleInputChange}
-              className="problem-form__answer"
             />
-            <select
+            <Category
               name="category"
               defaultValue={this.state.category}
               onChange={this.handleInputChange}
-              className="problem-form__category"
             >
               {categories.map(category => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
               ))}
-            </select>
-          </div>
-          <div className="problem-form__buttons">
-            <button type="submit" className="primary-button">
-              Добавить
-            </button>
-          </div>
+            </Category>
+          </Wrapper>
+          <Buttons>
+            <Button type="submit">Добавить</Button>
+          </Buttons>
         </form>
-        {error && <p className="auth__error">{error}</p>}
       </div>
     );
   }
@@ -119,7 +113,6 @@ class AddProblemForm extends Component {
 
 const mapStateToProps = store => ({
   categories: store.categories.list,
-  error: store.postProblem.error,
   isHydrating: store.postProblem.isHydrating,
 });
 

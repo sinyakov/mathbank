@@ -12,12 +12,14 @@ class AddProblemForm extends Component {
   static defaultProps = {
     defaultAnswer: null,
     onToggle: null,
+    onError: null,
   };
 
   static propTypes = {
     handlePutProblem: PropTypes.func.isRequired,
     handleDeleteProblem: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
+    onError: PropTypes.func,
     problemId: PropTypes.string.isRequired,
     defaultStatement: PropTypes.string.isRequired,
     defaultCategory: PropTypes.string.isRequired,
@@ -35,7 +37,9 @@ class AddProblemForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const { handlePutProblem, onToggle, defaultCategory } = this.props;
+    const {
+      handlePutProblem, onToggle, onError, defaultCategory,
+    } = this.props;
 
     e.preventDefault();
 
@@ -44,26 +48,38 @@ class AddProblemForm extends Component {
       ...this.state,
     };
 
-    handlePutProblem(cookies.get(TOKEN), problem, defaultCategory).then(() => {
-      if (onToggle) {
-        onToggle();
-      }
-    });
+    handlePutProblem(cookies.get(TOKEN), problem, defaultCategory)
+      .then(() => {
+        if (onToggle) {
+          onToggle();
+        }
+      })
+      .catch(() => {
+        if (onError) {
+          onError();
+        }
+      });
   };
 
   handleDelete = (e) => {
     e.preventDefault();
 
     const {
-      handleDeleteProblem, onToggle, problemId, defaultCategory,
+      handleDeleteProblem, onToggle, onError, problemId, defaultCategory,
     } = this.props;
     const problem = { id: problemId, category: defaultCategory };
 
-    handleDeleteProblem(cookies.get(TOKEN), problem).then(() => {
-      if (onToggle) {
-        onToggle();
-      }
-    });
+    handleDeleteProblem(cookies.get(TOKEN), problem)
+      .then(() => {
+        if (onToggle) {
+          onToggle();
+        }
+      })
+      .catch(() => {
+        if (onError) {
+          onError();
+        }
+      });
   };
 
   handleInputChange = (event) => {

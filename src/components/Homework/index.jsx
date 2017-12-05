@@ -43,8 +43,15 @@ class Homework extends Component {
         />
         <div className="catalog">
           {homework.list &&
-            homework.list.map(({ id, statement, answer }, index) => (
-              <Problem key={id} order={index + 1} id={id} statement={statement} answer={answer} />
+            homework.list.map((problem, index) => (
+              <Problem
+                key={problem.id}
+                order={index + 1}
+                id={problem.id}
+                statement={problem.statement}
+                category={problem.category}
+                answer={problem.answer}
+              />
             ))}
         </div>
       </div>

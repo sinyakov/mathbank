@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import remove from './img/remove.svg';
 
@@ -11,10 +11,28 @@ const Backdrop = styled.div`
   z-index: 1000;
   display: flex;
   box-sizing: border-box;
-  padding: 8px;
+  padding: 16px;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+`;
+
+const shaking = keyframes`
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(3px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-6px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(6px, 0, 0);
+  }
 `;
 
 const Window = styled.div`
@@ -27,6 +45,7 @@ const Window = styled.div`
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  animation: ${props => (props.error ? `1s ${shaking} ease-in-out 1` : 'none')};
 `;
 
 const Header = styled.h3`
@@ -80,6 +99,7 @@ class Modal extends Component {
     super(props);
     this.state = {
       isActive: false,
+      error: false,
     };
   }
 
@@ -89,13 +109,20 @@ class Modal extends Component {
     }));
   };
 
+  errorModal = () => {
+    this.setState({ error: true });
+    setTimeout(() => {
+      this.setState({ error: false });
+    }, 1000);
+  };
+
   render() {
     const { children, title, handler } = this.props;
 
     if (this.state.isActive) {
       return (
         <Backdrop>
-          <Window>
+          <Window error={this.state.error}>
             <Header>{title}</Header>
             <Close onClick={this.toggleModal} type="button">
               Закрыть окно
@@ -103,6 +130,7 @@ class Modal extends Component {
             <Content>
               {React.cloneElement(children, {
                 onToggle: this.toggleModal,
+                onError: this.errorModal,
               })}
             </Content>
           </Window>

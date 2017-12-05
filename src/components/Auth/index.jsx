@@ -10,13 +10,13 @@ const setToken = token => cookies.set(TOKEN, token);
 class Auth extends Component {
   static defaultProps = {
     onToggle: null,
-    error: '',
+    onError: null,
   };
 
   static propTypes = {
     handleAuth: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
-    error: PropTypes.string,
+    onError: PropTypes.func,
   };
 
   constructor(props) {
@@ -29,7 +29,7 @@ class Auth extends Component {
   }
 
   handleSubmit = (e) => {
-    const { handleAuth, onToggle } = this.props;
+    const { handleAuth, onToggle, onError } = this.props;
 
     e.preventDefault();
     handleAuth(this.state.login, this.state.password)
@@ -44,6 +44,9 @@ class Auth extends Component {
         Promise.resolve();
       })
       .catch((error) => {
+        if (onError) {
+          onError();
+        }
         Promise.reject(error);
       });
   };
@@ -55,10 +58,6 @@ class Auth extends Component {
   };
 
   render() {
-    if (this.props.error) {
-      console.log(this.props.error);
-    }
-
     return (
       <div>
         <form className="auth__form" onSubmit={e => this.handleSubmit(e)}>

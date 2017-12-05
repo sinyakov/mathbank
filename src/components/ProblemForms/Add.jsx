@@ -11,6 +11,7 @@ import Loader from '../Loader';
 class AddProblemForm extends Component {
   static defaultProps = {
     onToggle: null,
+    onError: null,
     error: '',
     defaultCategory: '',
   };
@@ -18,6 +19,7 @@ class AddProblemForm extends Component {
   static propTypes = {
     handlePostProblem: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
+    onError: PropTypes.func,
     error: PropTypes.string,
     defaultCategory: PropTypes.string,
     categories: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -34,14 +36,20 @@ class AddProblemForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const { handlePostProblem, onToggle } = this.props;
+    const { handlePostProblem, onToggle, onError } = this.props;
 
     e.preventDefault();
-    handlePostProblem(cookies.get(TOKEN), this.state).then(() => {
-      if (onToggle) {
-        onToggle();
-      }
-    });
+    handlePostProblem(cookies.get(TOKEN), this.state)
+      .then(() => {
+        if (onToggle) {
+          onToggle();
+        }
+      })
+      .catch(() => {
+        if (onError) {
+          onError();
+        }
+      });
   };
 
   handleInputChange = (event) => {

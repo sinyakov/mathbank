@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { getCategories } from '../../actions/catalog';
 import Categories from './Categories';
@@ -26,9 +27,15 @@ class Catalog extends Component {
       return <Loader>Загрузка категорий</Loader>;
     }
 
+    const title = category ? category.name : 'Категория отсутствует';
+
     return (
       <div>
-        <Header title={category ? category.name : 'Категория отсутствует'} showBasketCounter />
+        <Helmet>
+          <title>{title} | Каталог задач</title>
+        </Helmet>
+
+        <Header title={title} showBasketCounter />
         <Categories />
         <ProblemsList />
       </div>

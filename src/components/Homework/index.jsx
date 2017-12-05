@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import Header from '../Header';
 import Problem from '../Problem';
@@ -34,13 +35,14 @@ class Homework extends Component {
       return <Loader>Загрузка домашего задания</Loader>;
     }
 
+    const title = homework.error ? 'Нет такого домашнего задания' : homework.title;
+
     return (
       <div>
-        <Header
-          title={homework.error ? 'Нет такого домашнего задания' : homework.title}
-          showBackLink
-          showBasketCounter
-        />
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
+        <Header title={title} showBackLink showBasketCounter />
         <div className="catalog">
           {homework.list &&
             homework.list.map((problem, index) => (

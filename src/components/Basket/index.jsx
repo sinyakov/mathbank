@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import styled, { keyframes } from 'styled-components';
 import cookies from 'js-cookie';
@@ -95,9 +96,6 @@ class Basket extends Component {
 
   saveHomework = (e) => {
     e.preventDefault();
-    console.log({
-      title: this.title,
-    });
     this.props
       .handleCreateHomework(cookies.get(TOKEN), {
         list: this.props.problemsList.map(problem => problem.id),
@@ -115,6 +113,10 @@ class Basket extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>Новое домашнее задание</title>
+        </Helmet>
+
         <Header title="Новое домашнее задание" showBackLink notShowAuthLink />
         <SortableList items={this.props.problemsList} onSortEnd={this.onSortEnd} />
 
